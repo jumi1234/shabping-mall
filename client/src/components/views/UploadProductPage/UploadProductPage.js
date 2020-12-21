@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Typography, Button, Form, message, Input, Icon } from 'antd'
+import FileUpload from '../../utils/FileUpload'
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -9,9 +10,11 @@ const UploadTemplate = styled.div`
   max-width: 700px;
   margin: 2rem auto;
 
-  div {
-    text-align: center;
-    margin-bottom: 2rem;
+  > * {
+    &:first-child {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
   }
 `;
 
@@ -25,12 +28,13 @@ const Continents = [
   {key: 7, value: "Antarctica"}
 ]
 
-function UploadPage() {
+function UploadProductPage() {
 
   const [TitleValue, setTitleValue] = useState("")
   const [DescriptionValue, setDescriptionValue] = useState("")
   const [PriceValue, setPriceValue] = useState(0)
   const [ContinentValue, setContinentValue] = useState(1)
+  const [Images, setImages] = useState([])
 
   const onTitleChange = (e) => {
     setTitleValue(e.currentTarget.value)
@@ -48,6 +52,10 @@ function UploadPage() {
     setContinentValue(e.currentTarget.value)
   }
 
+  const uploadImages = (newImages) => {
+    setImages(newImages)
+  }
+
   return (
     <UploadTemplate>
       <div>
@@ -55,6 +63,8 @@ function UploadPage() {
       </div>
 
       <Form onSubmit>
+
+        <FileUpload refreshFunction={uploadImages} />
 
         <br />
         <br />
@@ -96,4 +106,4 @@ function UploadPage() {
 
 }
 
-export default UploadPage
+export default UploadProductPage
