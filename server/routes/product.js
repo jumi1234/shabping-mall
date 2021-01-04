@@ -47,12 +47,22 @@ router.post('/uploadProduct', auth, (req, res) => {
   });
 })
 
-router.get('/getProducts', auth, (req, res) => {
+router.post('/getProducts', auth, (req, res) => {
+
+  let order = req.body.order ? req.body.order : "desc";
+  let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
+  let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+  let skip = parseInt(req.body.skip)
+
   Product.find()
+    .populate("writer")
+    .sort([[sortBy, order]])
+    .skip(skip)
+    .limit(limit)
     // exec()은 앞에 작성한 query를 실행하고 promise를 반환한다, Will execute returning a promise
     .exec((err, products) => {
       if(err) return res.status(400).json({ success: false, err })
-      return res.status(200).json({ success: true, products })
+      return res.status(200).json({ success: true, products, postSize: products.length })
     })
 })
 
