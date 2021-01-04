@@ -23,12 +23,22 @@ function FileUpload(props) {
     Axios.post('/api/product/uploadImage', formData, config)
       .then(response => {
         if(response.data.success) {
-            setImages([ ...Images, response.data.image ])
-            props.refreshFunction([ ...Images, response.data.image ])
+          setImages([ ...Images, response.data.image ])
+          props.refreshFunction([ ...Images, response.data.image ])
         } else {
           alert("")
         }
       })
+  }
+
+  const onDelete = (image) => {
+    const currentIndex = Images.indexOf(image);   // image의 index 추출
+
+    let newImages = [...Images]
+    newImages.splice(currentIndex, 1)
+
+    setImages(newImages)
+    props.refreshFunction(newImages)
   }
 
   return (
@@ -45,6 +55,12 @@ function FileUpload(props) {
       </Dropzone>
 
       <div style={{ display: 'flex', width: '350px', height: '240px', overflowX: 'scroll' }}>
+
+        {Images.map((image, index) => (
+          <div onClick={() => onDelete(image)}>
+            <img style={{ minWidth: '300px', width: '300px', height: '240px' }} src={`http://localhost:5000/${image}`} alt={`productImg-${index}`} />
+          </div>
+        ))}
         <div onClick>
           <img />
         </div>

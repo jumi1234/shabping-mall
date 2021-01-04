@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Typography, Button, Form, message, Input, Icon } from 'antd'
 import FileUpload from '../../utils/FileUpload'
+import Axios from 'axios';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -28,7 +29,7 @@ const Continents = [
   {key: 7, value: "Antarctica"}
 ]
 
-function UploadProductPage() {
+function UploadProductPage(props) {
 
   const [TitleValue, setTitleValue] = useState("")
   const [DescriptionValue, setDescriptionValue] = useState("")
@@ -56,13 +57,36 @@ function UploadProductPage() {
     setImages(newImages)
   }
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const variables = {
+      writer: props.user.userData._id,
+      title: TitleValue,
+      description: DescriptionValue,
+      price: PriceValue,
+      images: Images,
+      continents: ContinentValue,
+    }
+
+    Axios.post('/api/product/uploadProduct', variables)
+      .then(response => {
+        if(response.data.success) {
+          alert('제품 업로드에 성공했습니다');
+          props.history.push('/')
+        } else {
+          alert('업로드에 실패했습니다')
+        }
+      })
+  }
+
   return (
     <UploadTemplate>
       <div>
         <Title level={2}>Upload Product</Title>
       </div>
 
-      <Form onSubmit>
+      <Form onSubmit={onSubmit}>
 
         <FileUpload refreshFunction={uploadImages} />
 
@@ -96,7 +120,7 @@ function UploadProductPage() {
         <br />
         <br />
 
-        <Button onClick>
+        <Button onClick={onSubmit}>
           Submit
         </Button>
 
