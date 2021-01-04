@@ -60,6 +60,11 @@ function UploadProductPage(props) {
   const onSubmit = (e) => {
     e.preventDefault();
 
+    // 입력한 내용 없을 때 유효성 검사
+    if(!TitleValue || !DescriptionValue || !PriceValue || !ContinentValue || Images.length === 0) {
+      return alert("내용을 입력해 주세요");
+    }
+
     const variables = {
       writer: props.user.userData._id,
       title: TitleValue,

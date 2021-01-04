@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const { auth } = require("../middleware/auth");
 const { Product } = require("../models/Product");
 
 //=================================
@@ -36,7 +37,7 @@ router.post("/uploadImage", (req, res) => {
   })
 })
 
-router.post('/uploadProduct', (req, res) => {
+router.post('/uploadProduct', auth, (req, res) => {
   // 클라이언트 가져온 정보를 DB에 저장
   const product = new Product(req.body);
 
@@ -44,6 +45,15 @@ router.post('/uploadProduct', (req, res) => {
     if(err) return res.send(400).json({ success: false })
     return res.status(200).json({ success: true })
   });
+})
+
+router.get('/getProducts', auth, (req, res) => {
+  Product.find()
+    // exec()은 앞에 작성한 query를 실행하고 promise를 반환한다, Will execute returning a promise
+    .exec((err, products) => {
+      if(err) return res.status(400).json({ success: false, err })
+      return res.status(200).json({ success: true, products })
+    })
 })
 
 module.exports = router;
