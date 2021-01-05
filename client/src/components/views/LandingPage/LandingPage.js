@@ -3,6 +3,7 @@ import { Icon, Row, Col, Card } from 'antd';
 import styled from 'styled-components';
 import Axios from 'axios';
 import ImageSlider from '../../utils/ImageSlider';
+import CheckBox from './Sections/CheckBox';
 
 const LandingTemplate = styled.div`
   width: 75%;
@@ -77,11 +78,18 @@ function LandingPage() {
     </Col>
   })
 
+  const handleFilters = (filters, category) => {
+
+  }
+
   return (
       <LandingTemplate>
         <TitleDiv>
           <h1>어디로 떠나고 싶으신가요?<Icon type="rocket"/></h1>
         </TitleDiv>
+
+        {/* Filter */}
+        <CheckBox handleFilters={filters => handleFilters(filters, "continents")} />
 
         {Products.length === 0 ?
           <NothingDiv>
