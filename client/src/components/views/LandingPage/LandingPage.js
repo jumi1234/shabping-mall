@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Axios from 'axios';
 import ImageSlider from '../../utils/ImageSlider';
 import CheckBox from './Sections/CheckBox';
+import RadioBox from './Sections/RadioBox';
 
 const LandingTemplate = styled.div`
   width: 75%;
@@ -105,7 +106,6 @@ function LandingPage() {
   const handleFilters = (filters, category) => {
     console.log(filters);
     const newFilters = {...Filters}
-
     newFilters[category] = filters
 
     if(category == "price") {
@@ -123,7 +123,15 @@ function LandingPage() {
         </TitleDiv>
 
         {/* Filter */}
-        <CheckBox handleFilters={filters => handleFilters(filters, "continents")} />
+
+        <Row gutter={[16, 16]}>
+          <Col lg={12} xs={24}>
+            <CheckBox handleFilters={filters => handleFilters(filters, "continents")} />
+          </Col>
+          <Col lg={12} xs={24}>
+            <RadioBox handleFilters={filters => handleFilters(filters, "price")} />
+          </Col>
+        </Row>
 
         {Products.length === 0 ?
           <NothingDiv>
