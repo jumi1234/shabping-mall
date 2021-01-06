@@ -32,6 +32,10 @@ function LandingPage() {
   const [Skip, setSkip] = useState(0)
   const [Limit, setLimit] = useState(8)
   const [PostSize, setPostSize] = useState(0)
+  const [Filters, setFilters] = useState({
+    continents: [],
+    price: []
+  })
 
   useEffect(() => {
 
@@ -47,7 +51,13 @@ function LandingPage() {
     Axios.post('/api/product/getProducts', variables)
       .then(response => {
         if(response.data.success) {
-          setProducts([...Products, ...response.data.products])
+          if(variables.loadMore) {
+            // 더보기 눌렀을 때만 기존 데이터 + 필터링한 데이터 추가
+            setProducts([...Products, ...response.data.products])
+          } else {
+            // 더보기 안 눌렀을 때는 조건 해당하는 상품 리스트 전체 가져오기
+            setProducts(response.data.products)
+          }
           setPostSize(response.data.postSize);
         } else {
           alert('제품 리스트를 가져오는데 실패했습니다')
@@ -60,7 +70,8 @@ function LandingPage() {
 
     const variables = {
       skip: skip,
-      limit: Limit
+      limit: Limit,
+      loadMore: true,
     }
 
     getProducts(variables);
@@ -78,8 +89,31 @@ function LandingPage() {
     </Col>
   })
 
-  const handleFilters = (filters, category) => {
+  // filter에 따라 상품 리스트 다시 가져와야 하기 때문에 trigger 생성
+  const showFilteredResults = (filters) => {
 
+    const variables = {
+      skip: 0,
+      limit: Limit,
+      filters: filters
+    }
+
+    getProducts(variables)
+    setSkip(0)
+  }
+
+  const handleFilters = (filters, category) => {
+    console.log(filters);
+    const newFilters = {...Filters}
+
+    newFilters[category] = filters
+
+    if(category == "price") {
+
+    }
+
+    showFilteredResults(newFilters)
+    setFilters(newFilters)
   }
 
   return (
