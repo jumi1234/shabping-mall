@@ -1,3 +1,5 @@
+@import "~react-image-gallery/styles/css/image-gallery.css";
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
@@ -40,4 +42,9 @@ input.error {
 
 .sc-gsTCUz .ant-row {
   margin-bottom: 30px;
+}
+
+.sc-fubCfw .ant-row .image-gallery-content.bottom {
+  display: flex;
+  flex-direction: column;
 }
