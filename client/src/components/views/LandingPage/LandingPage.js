@@ -6,6 +6,7 @@ import ImageSlider from '../../utils/ImageSlider';
 import CheckBox from './Sections/CheckBox';
 import RadioBox from './Sections/RadioBox';
 import { continents, price } from './Sections/Datas';
+import SearchFeature from './Sections/SearchFeature';
 
 const LandingTemplate = styled.div`
   width: 75%;
@@ -26,6 +27,12 @@ const LoadMoreDiv = styled.div`
   justify-content: center;
 `;
 
+const SearchDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem auto;
+`;
+
 const { Meta } = Card;
 
 function LandingPage() {
@@ -38,6 +45,7 @@ function LandingPage() {
     continents: [],
     price: []
   })
+  const [SearchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
 
@@ -130,6 +138,10 @@ function LandingPage() {
     setFilters(newFilters)
   }
 
+  const updateSearchTerm = (newSearchTerm) => {
+    setSearchTerm(newSearchTerm)
+  }
+
 
   return (
       <LandingTemplate>
@@ -147,6 +159,11 @@ function LandingPage() {
             <RadioBox list={price} handleFilters={filters => handleFilters(filters, "price")} />
           </Col>
         </Row>
+
+        {/* Seacrh */}
+        <SearchDiv>
+          <SearchFeature refreshFunction={updateSearchTerm} />
+        </SearchDiv>
 
         {Products.length === 0 ?
           <NothingDiv>
