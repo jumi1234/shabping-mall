@@ -6,8 +6,9 @@ import LandingPage from "./views/LandingPage/LandingPage.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
-import Footer from "./views/Footer/Footer"
-import UploadProductPage from "./views/UploadProductPage/UploadProductPage"
+import Footer from "./views/Footer/Footer";
+import UploadProductPage from "./views/UploadProductPage/UploadProductPage";
+import DetailProduct from './views/DetailProduct/DetailProduct';
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -23,6 +24,7 @@ function App() {
           <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/product/upload" component={Auth(UploadProductPage, true)} />
+          <Route exact path="/product/:productId" component={Auth(DetailProduct, true)} />
         </Switch>
       </div>
       <Footer />

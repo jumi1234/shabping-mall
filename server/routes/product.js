@@ -102,4 +102,20 @@ router.post('/getProducts', auth, (req, res) => {
   }
 })
 
+router.get('/product_by_id', (req, res) => {
+
+  // productId를 이용해서 product DB에서 productId가 같은 상품 데이터를 가져온다
+
+  let type = req.query.type
+  let productId = req.query.id
+
+  Product.find({ _id: productId })
+    .populate('writer')
+    .exec((err, product) => {
+      if(err) return res.status(400).send(err)
+      return res.status(200).send({ success: true, product })
+    })
+
+})
+
 module.exports = router;
