@@ -60,12 +60,19 @@ router.post('/getProducts', auth, (req, res) => {
     // key = continents, price / req.body.filters[key] = [5, 7], [2] 배열 데이터
     if(req.body.filters[key].length > 0) {
       if(key === "price") {
-
+        findArgs[key] = {
+          // Greater than equal
+          $gte: req.body.filters[key][0],
+          // Less than equal
+          $lte: req.body.filters[key][1]
+        }
       } else {
         findArgs[key] = req.body.filters[key];
       }
     }
   }
+
+  console.log(findArgs);
 
   Product.find(findArgs)
     .populate("writer")
