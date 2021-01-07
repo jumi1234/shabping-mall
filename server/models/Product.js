@@ -36,6 +36,16 @@ const productSchema = mongoose.Schema({
   }
 }, { timestamps: true })
 
+// 검색어 매칭 우선순위(비중) 설정 control search result with weight
+productSchema.index({
+  title: 'text',
+  description: 'text'
+}, { weights: {
+  title: 5,
+  description: 1
+  }
+})
+
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = { Product }

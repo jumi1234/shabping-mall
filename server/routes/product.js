@@ -53,6 +53,7 @@ router.post('/getProducts', auth, (req, res) => {
   let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
   let limit = req.body.limit ? parseInt(req.body.limit) : 100;
   let skip = parseInt(req.body.skip)
+  let term = req.body.searchTerm;
 
   let findArgs = {};
 
@@ -72,18 +73,33 @@ router.post('/getProducts', auth, (req, res) => {
     }
   }
 
-  console.log(findArgs);
-
-  Product.find(findArgs)
-    .populate("writer")
-    .sort([[sortBy, order]])
-    .skip(skip)
-    .limit(limit)
-    // exec()은 앞에 작성한 query를 실행하고 promise를 반환한다, Will execute returning a promise
-    .exec((err, products) => {
-      if(err) return res.status(400).json({ success: false, err })
-      return res.status(200).json({ success: true, products, postSize: products.length })
-    })
+  if(term) {
+    Product.find(findArgs)
+      // 검색어랑 동일한 결과만 가져온다
+      // .find({ $text: { $search: term } })
+      // sql like과 동일, 검색어가 포함된 title을 가진 상품 리스트를 다 가져온다
+      .find({ "title": { '$regex': term } })
+      .populate("writer")
+      .sort([[sortBy, order]])
+      .skip(skip)
+      .limit(limit)
+      // exec()은 앞에 작성한 query를 실행하고 promise를 반환한다, Will execute returning a promise
+      .exec((err, products) => {
+        if(err) return res.status(400).json({ success: false, err })
+        return res.status(200).json({ success: true, products, postSize: products.length })
+      })
+  } else {
+    Product.find(findArgs)
+      .populate("writer")
+      .sort([[sortBy, order]])
+      .skip(skip)
+      .limit(limit)
+      // exec()은 앞에 작성한 query를 실행하고 promise를 반환한다, Will execute returning a promise
+      .exec((err, products) => {
+        if(err) return res.status(400).json({ success: false, err })
+        return res.status(200).json({ success: true, products, postSize: products.length })
+      })
+  }
 })
 
 module.exports = router;
