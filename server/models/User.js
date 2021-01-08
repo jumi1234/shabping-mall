@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
     email: {
         type:String,
         trim:true,
-        unique: 1 
+        unique: 1
     },
     password: {
         type: String,
@@ -24,11 +24,19 @@ const userSchema = mongoose.Schema({
     },
     role : {
         type:Number,
-        default: 0 
+        default: 0
     },
     image: String,
     token : {
         type: String,
+    },
+    cart: {
+      type: Array,
+      default: []
+    },
+    history: {
+      type: Array,
+      default: []
     },
     tokenExp :{
         type: Number
@@ -38,15 +46,15 @@ const userSchema = mongoose.Schema({
 
 userSchema.pre('save', function( next ) {
     var user = this;
-    
-    if(user.isModified('password')){    
+
+    if(user.isModified('password')){
         // console.log('password changed')
         bcrypt.genSalt(saltRounds, function(err, salt){
             if(err) return next(err);
-    
+
             bcrypt.hash(user.password, salt, function(err, hash){
                 if(err) return next(err);
-                user.password = hash 
+                user.password = hash
                 next()
             })
         })
