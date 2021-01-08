@@ -44,7 +44,38 @@ input.error {
   margin-bottom: 30px;
 }
 
-.sc-fubCfw .ant-row .image-gallery-content.bottom {
+.ant-row .image-gallery-content.bottom {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.dVSIfK .ant-col > div {
+  width: 100%;
+}
+
+.dVSIfK .ant-col > div .image-gallery {
+  width: 100%;
+}
+
+.image-gallery-swipe {
+  width: 100%;
+}
+
+.image-gallery-slides {
+  width: 100%;
+}
+
+.image-gallery-slide.center > div {
+  width: 100%;
+}
+
+.sc-fubCfw.izBuGD {
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-descriptions.ant-descriptions-bordered {
   display: flex;
   flex-direction: column;
 }
