@@ -24,7 +24,7 @@ function ProductInfo(props) {
 
   return(
     <InfoTemplate>
-      <Descriptions title="Product Info" layout="vertical" bordered>
+      <Descriptions title="상품 정보" layout="vertical" bordered>
        <Descriptions.Item label="기격">{props.detail.price}원</Descriptions.Item>
        <Descriptions.Item label="판매량">{props.detail.sold}</Descriptions.Item>
        <Descriptions.Item label="조회수">{props.detail.views}</Descriptions.Item>
