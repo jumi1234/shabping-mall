@@ -22,7 +22,7 @@ export default function(state={},action){
             // actions.payload => userInfo.cart 데이터
             return {...state, userData: { ...state.userData, cart: action.payload }}
         case GET_CART_ITEMS:
-            return {...state, cartDetail: action.payload }
+            return {...state, cartDetail: action.payload.product }
         default:
             return state;
     }
