@@ -102,6 +102,7 @@ router.post('/getProducts', auth, (req, res) => {
   }
 })
 
+// id = 123424, 4334, 23323 여러 개일 때 type = array
 router.get('/product_by_id', (req, res) => {
 
   // productId를 이용해서 product DB에서 productId가 같은 상품 데이터를 가져온다
@@ -109,11 +110,19 @@ router.get('/product_by_id', (req, res) => {
   let type = req.query.type
   let productId = req.query.id
 
-  Product.find({ _id: productId })
+  if(type === "array") {
+    // id = 123424, 4334, 23323 => productIds = ['123424', '4334', '23323'] 이런 식으로 바꿔주기
+    let ids = req.query.id.split(',')
+    productIds = ids.map(item => {
+      return item
+    })
+  }
+
+  Product.find({ _id: { $in: productIds } })
     .populate('writer')
     .exec((err, product) => {
       if(err) return res.status(400).send(err)
-      return res.status(200).send({ success: true, product })
+      return res.status(200).json({ success: true, product })
     })
 
 })

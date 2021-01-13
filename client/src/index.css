@@ -50,11 +50,11 @@ input.error {
   width: 100%;
 }
 
-.ant-col > div {
+.sc-jrAGrp .ant-col > div {
   width: 100%;
 }
 
-.ant-col > div .image-gallery {
+.sc-jrAGrp .ant-col > div .image-gallery {
   width: 100%;
 }
 
@@ -78,4 +78,10 @@ input.error {
 .ant-descriptions.ant-descriptions-bordered {
   display: flex;
   flex-direction: column;
+}
+
+@media only screen and (max-width: 991px) {
+  .sc-jrAGrp .ant-row {
+    flex-direction: column !important;
+  }
 }
