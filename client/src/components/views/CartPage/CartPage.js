@@ -4,6 +4,7 @@ import { getCartItems } from '../../../_actions/user_actions';
 import { removeCartItem } from '../../../_actions/user_actions';
 import UserCardBlock from './Sections/UserCardBlock';
 import styled from 'styled-components';
+import { Empty } from 'antd';
 
 const CartTemplate = styled.div`
   width: 85%;
@@ -13,6 +14,7 @@ const CartTemplate = styled.div`
 function CartPage(props) {
 
   const [Total, setTotal] = useState(0)
+  const [ShowTotal, setShowTotal] = useState(false)
 
   const dispatch = useDispatch();
 
@@ -43,13 +45,15 @@ function CartPage(props) {
     })
 
     setTotal(total)
+    setShowTotal(true)
   }
 
   const removeFromCart = (productId) => {
     dispatch(removeCartItem(productId))
       .then(response => {
-  
-
+        if(response.payload.productInfo.length <= 0) {
+          setShowTotal(false)
+        }
       })
   }
 
@@ -59,9 +63,16 @@ function CartPage(props) {
       <div>
         <UserCardBlock products={props.user.cartDetail && props.user.cartDetail} removeItem={removeFromCart}/>
       </div>
-      <div style={{ marginTop: '3rem' }}>
-        <h2>총 금액: ₩{Total}</h2>
-      </div>
+      { ShowTotal ?
+        <div style={{ marginTop: '3rem' }}>
+          <h2>총 금액: ₩{Total}</h2>
+        </div>
+        :
+        <>
+          <br />
+          <Empty description={false} />
+        </>
+      }
     </CartTemplate>
   )
 }
