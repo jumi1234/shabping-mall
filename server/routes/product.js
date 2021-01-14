@@ -108,7 +108,7 @@ router.get('/product_by_id', (req, res) => {
   // productId를 이용해서 product DB에서 productId가 같은 상품 데이터를 가져온다
 
   let type = req.query.type
-  let productId = req.query.id
+  let productIds = req.query.id
 
   if(type === "array") {
     // id = 123424, 4334, 23323 => productIds = ['123424', '4334', '23323'] 이런 식으로 바꿔주기
