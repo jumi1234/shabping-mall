@@ -5,6 +5,7 @@ import { removeCartItem } from '../../../_actions/user_actions';
 import UserCardBlock from './Sections/UserCardBlock';
 import styled from 'styled-components';
 import { Empty } from 'antd';
+import Paypal from '../../utils/Paypal';
 
 const CartTemplate = styled.div`
   width: 85%;
@@ -73,6 +74,7 @@ function CartPage(props) {
           <Empty description={false} />
         </>
       }
+      <Paypal />
     </CartTemplate>
   )
 }
