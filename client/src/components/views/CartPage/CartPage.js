@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCartItems } from '../../../_actions/user_actions';
-import { removeCartItem } from '../../../_actions/user_actions';
+import { getCartItems, removeCartItem, onSuccessBuy } from '../../../_actions/user_actions';
 import UserCardBlock from './Sections/UserCardBlock';
 import styled from 'styled-components';
-import { Empty } from 'antd';
+import { Empty, Result } from 'antd';
 import Paypal from '../../utils/Paypal';
 
 const CartTemplate = styled.div`
@@ -16,6 +15,7 @@ function CartPage(props) {
 
   const [Total, setTotal] = useState(0)
   const [ShowTotal, setShowTotal] = useState(false)
+  const [ShowSuccess, setShowSuccess] = useState(false)
 
   const dispatch = useDispatch();
 
@@ -58,24 +58,44 @@ function CartPage(props) {
       })
   }
 
+  const transactionSuccess = (data) => {
+    dispatch(onSuccessBuy({
+      paymentData: data,
+      cartDetail: props.user.cartDetail
+    }))
+    .then(response => {
+      if(response.payload.success) {
+        setShowTotal(false)
+        setShowSuccess(true)
+      }
+    })
+  }
+
   return(
     <CartTemplate>
       <h1>내 장바구니</h1>
       <div>
         <UserCardBlock products={props.user.cartDetail && props.user.cartDetail} removeItem={removeFromCart}/>
       </div>
+
       { ShowTotal ?
         <div style={{ marginTop: '3rem' }}>
           <h2>총 금액: ₩{Total}</h2>
         </div>
-        :
+        : ShowSuccess ?
+          <Result
+           status="success"
+           title="구매 완료!"
+           subTitle="구매가 정상적으로 이루어졌습니다"
+           />
+         :
         <>
           <br />
           <Empty description={false} />
         </>
       }
       {ShowTotal &&
-        <Paypal total={Total}/>
+        <Paypal total={Total} onSuccess={transactionSuccess} />
       }
     </CartTemplate>
   )
