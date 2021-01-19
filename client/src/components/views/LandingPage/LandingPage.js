@@ -35,7 +35,7 @@ const SearchDiv = styled.div`
 
 const { Meta } = Card;
 
-function LandingPage() {
+function LandingPage(props) {
 
   const [Products, setProducts] = useState([])
   const [Skip, setSkip] = useState(0)
@@ -70,7 +70,8 @@ function LandingPage() {
           }
           setPostSize(response.data.postSize);
         } else {
-          alert('제품 리스트를 가져오는데 실패했습니다')
+          // alert('제품 리스트를 가져오는데 실패했습니다')
+          props.history.push('/login')
         }
       })
   }
