@@ -27,3 +27,8 @@ root>client> npm install
 ``` C
 npm run dev
 ```
+
+#### 4. mkdir /uploads
+``` C
+root>mkdir uploads
+```
